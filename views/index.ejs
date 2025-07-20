@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Business Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        /* General Styles */
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        /* Navbar Styles */
+        
+        nav {
+            background-color: #ffffff;
+            padding: 10px 30px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            overflow: visible;
+            /* allow the animated line to show outside */
+        }
+        /* animated colored line at bottom edge */
+        
+        nav::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 200%;
+            /* double width for smooth looping */
+            height: 4px;
+            background: linear-gradient( to right, red, green, blue, orange, red);
+            background-size: 200% 100%;
+            animation: slide-line 4s linear infinite;
+        }
+        
+        @keyframes slide-line {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        nav a {
+            position: relative;
+            text-decoration: none;
+            color: #0078d4;
+            font-weight: bold;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #ff6600;
+        }
+        /* Hero Section */
+        
+        .hero {
+            /* gradient + subtle pattern overlay */
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('https://www.transparenttextures.com/patterns/diagmonds-light.png'), linear-gradient(135deg, #0078d4 0%, #00c0ff 100%);
+            background-blend-mode: overlay, normal;
+            background-size: auto, contain, cover;
+            padding: 100px 20px;
+            text-align: center;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #004a9f;
+            /* entrance animation */
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .hero .btn {
+            background: linear-gradient(45deg, #ff6600, #ff9f00);
+            color: white;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.4);
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+        
+        .hero .btn:hover {
+            background: linear-gradient(45deg, #ff9f00, #ff6600);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255, 102, 0, 0.5);
+        }
+        /* optional pulse for the button */
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .hero .btn.animate-pulse {
+            animation: pulse 3s ease-in-out infinite 2s;
+        }
+        /* Featured Businesses Section */
+        
+        .featured-businesses {
+            padding: 80px 20px;
+            /* gentle gradient */
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            text-align: center;
+        }
+        
+        .featured-businesses h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #004a9f;
+        }
+        /* Search bar */
+        
+        #business-search {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 16px;
+            margin: 0 auto 40px;
+            border: 2px solid #0078d4;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        #business-search:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 8px rgba(255, 102, 0, 0.4);
+        }
+        
+        .business-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .business-card {
+            /* existing styles… */
+            position: relative;
+            background-color: #ffffff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            width: 260px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .business-card:hover {
+            transform: translateY(-5px);
+            /* add a colored glow plus existing depth shadow */
+            box-shadow: 0 0 20px rgba(0, 120, 212, 0.6), /* blue glow */
+            0 0 30px rgba(255, 102, 0, 0.5), /* orange glow */
+            0 10px 25px rgba(0, 0, 0, 0.15);
+            /* depth shadow */
+        }
+        /* Overlay reveal button */
+        
+        .business-card .view-btn {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 24px;
+            background: linear-gradient(45deg, #ff6600, #ff9f00);
+            color: #fff;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            opacity: 0;
+            transition: bottom 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .business-card:hover .view-btn {
+            bottom: 20px;
+            opacity: 1;
+        }
+        
+        .business-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #0078d4;
+        }
+        
+        .business-card p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        /* Why Choose Us Section */
+        /* Section background with light pattern + gradient */
+        
+        .why-choose-us {
+            position: relative;
+            padding: 80px 20px;
+            background: url('https://www.transparenttextures.com/patterns/az-subtle.png'), linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            background-blend-mode: overlay;
+            text-align: center;
+            overflow: hidden;
+        }
+        /* Section heading */
+        
+        .why-choose-us h2 {
+            font-size: 2.75rem;
+            margin-bottom: 50px;
+            color: #0078d4;
+            font-weight: 600;
+        }
+        /* Features flex container */
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        /* Individual feature card */
+        
+        .feature {
+            background: linear-gradient(135deg, #0078d4 0%, #00c0ff 100%);
+            color: #fff;
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 260px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            cursor: default;
+        }
+        /* Icon styling */
+        
+        .feature .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+        /* Feature hover effect */
+        
+        .feature:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        /* Feature title */
+        
+        .feature h3 {
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        /* Paragraph text */
+        
+        .feature p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        /* Bounce animation for icon */
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        /* Include Animate.css for fadeInUp */
+        /* About Us Styles */
+        
+        .about-us {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%);
+            text-align: center;
+        }
+        
+        .about-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .about-image img {
+            width: 280px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-content {
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        .about-content h2 {
+            font-size: 2.75rem;
+            margin-bottom: 20px;
+            color: #0078d4;
+        }
+        
+        .about-content p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .about-content a {
+            color: #ff6600;
+            font-weight: bold;
+            text-decoration: none;
+            border-bottom: 2px solid #ff6600;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .about-content a:hover {
+            color: #0078d4;
+            border-color: #0078d4;
+        }
+        /* Footer Styles */
+        /* Footer Styles */
+        
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            animation: rollIn 2s ease-out forwards, changeColor 6s ease-in-out infinite;
+        }
+        /* Footer Roll-in Animation */
+        
+        @keyframes rollIn {
+            0% {
+                transform: translateY(100%);
+            }
+            50% {
+                transform: translateY(-10%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        /* Color Change Animation */
+        
+        @keyframes changeColor {
+            0%,
+            100% {
+                background-color: #333;
+            }
+            50% {
+                background-color: #140b195a;
+            }
+        }
+        
+        .footer-content a {
+            color: #ff6600;
+            font-weight: bold;
+            text-decoration: none;
+            border-bottom: 2px solid #ff6600;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .footer-content a:hover {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-links">
+            <a href="/" class="btn">Home</a>
+            <a href="/" class="btn">About Us</a>
+            <a href="/businesses" class="btn">Businesses</a>
+
+            <a href="/register" class="btn">Sign Up</a>
+            <a href="/login" class="btn">login</a>
+            <a href="/logout" class="btn">logout</a>
+
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to Our Marketplace</h1>
+        <p>Connect with local businesses and grow your brand.</p>
+        <a href="/signup" class="btn">Get Started</a>
+
+        <% if (user) { %>
+            <h1>Welcome,
+                <%= user.name %>!</h1>
+            <% } else { %>
+                <h1>Welcome, Guest!</h1>
+                <% } %>
+
+                    <% if (user) { %>
+                        <a href="/register-business" class="btn">Register Your Business</a>
+                        <% } %>
+    </section>
+
+    <!-- Featured Businesses Section -->
+    <section class="featured-businesses">
+        <h2>Featured Local Businesses</h2>
+        <div class="business-cards">
+            <div class="business-card">
+                <img src="images/cafe-delight.jpg" alt="Cafe Delight" class="business-image">
+                <h3>Cafe Delight</h3>
+                <p class="category">Coffee Shop</p>
+                <p class="description">A cozy coffee shop offering freshly brewed coffee, pastries, and a warm atmosphere for relaxation and socializing.</p>
+            </div>
+            <div class="business-card">
+                <img src="images/tech-haven.jpg" alt="Tech Haven" class="business-image">
+                <h3>Tech Haven</h3>
+                <p class="category">IT Services</p>
+                <p class="description">Providing expert IT solutions for businesses and individuals. Services include network setup, troubleshooting, and software development.</p>
+            </div>
+            <div class="business-card">
+                <img src="images/green-grocers.jpg" alt="Green Grocers" class="business-image">
+                <h3>Green Grocers</h3>
+                <p class="category">Organic Market</p>
+                <p class="description">An organic market offering fresh, locally sourced produce, dairy, and sustainable products. Supporting local farmers and eco-friendly practices.</p>
+            </div>
+            <div class="business-card">
+                <img src="images/fitness-first.jpg" alt="Fitness First" class="business-image">
+                <h3>Fitness First</h3>
+                <p class="category">Gym & Training</p>
+                <p class="description">A state-of-the-art gym offering personalized fitness training, group classes, and wellness programs for all fitness levels.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us">
+        <h2>Why Choose Our Marketplace?</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Visibility</h3>
+                <p>Increase your visibility and attract more customers.</p>
+            </div>
+            <div class="feature">
+                <h3>Security</h3>
+                <p>Your data and business information are safe with us.</p>
+            </div>
+            <div class="feature">
+                <h3>Support</h3>
+                <p>Our team is always available to help you succeed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-us">
+        <div class="about-container">
+            <div class="about-image">
+                <!-- Placeholder for a founder photo -->
+                <img src="/images/founder.jpg" alt="Sanjay Kumar Thakur" />
+            </div>
+            <div class="about-content">
+                <h2>About Us</h2>
+                <p>
+                    Welcome to our marketplace! Founded by <strong>Sanjay Kumar Thakur</strong>, we’re on a mission to connect local businesses with their next wave of customers. Sanjay brings years of experience in digital marketing and a passion for
+                    helping small businesses thrive.
+                </p>
+                <p>
+                    Got questions or want to learn more? Reach out directly at
+                    <a href="mailto:sanjaystyle8@gmail.com">sanjaystyle8@gmail.com</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Local Business Marketplace. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:sanjaystyle8@gmail.com">sanjaystyle8@gmail.com</a></p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

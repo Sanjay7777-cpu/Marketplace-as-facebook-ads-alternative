@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Project Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+        
+        .register-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid white;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-bottom-color: #ffd700;
+        }
+        
+        .input-group label {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s ease-in-out;
+        }
+        
+        .input-group input:focus+label,
+        .input-group input:valid+label {
+            top: -12px;
+            font-size: 12px;
+            color: #ffd700;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff9a9e;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+        
+        button:hover {
+            background: #fad0c4;
+            transform: scale(1.05);
+        }
+        
+        p {
+            margin-top: 20px;
+            color: white;
+        }
+        
+        p a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="register-box">
+            <h2>Register</h2>
+            <form action="/register" method="POST">
+                <div class="input-group">
+                    <input type="text" name="name" required>
+                    <label></label>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" required>
+                    <label></label>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" required>
+                    <label></label>
+                </div>
+                <div class="input-group">
+                    <select name="role" required style="width: 100%; padding: 14px; background: transparent; border: none; border-bottom: 2px solid white; color: white; font-size: 16px; outline: none;">
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="client">Client</option>
+                        <option value="freelancer">Freelancer</option>
+                    </select>
+                </div>
+                <button type="submit">Register</button>
+                <p>Already have an account? <a href="/login">Login</a></p>
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>

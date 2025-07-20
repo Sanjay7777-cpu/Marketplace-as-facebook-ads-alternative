@@ -1,0 +1,9 @@
+<h2>Edit Your Business</h2>
+
+<form action="/dashboard/edit-business" method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" value="<%= business.name %>" required />
+    <textarea name="description"><%= business.description %></textarea>
+    <input type="text" name="category" value="<%= business.category %>" required />
+    <input type="file" name="image" />
+    <button type="submit">Update</button>
+</form>
